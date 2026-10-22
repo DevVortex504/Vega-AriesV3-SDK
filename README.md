@@ -93,8 +93,8 @@ The Aries V3 secondary bootloader (`FLASHER`) listens for a host response over s
 - **Board initiates:** `C` (`0x43`, XMODEM-CRC synchronization prompt)
 - **Host transmits:** 128-byte packets with CRC-16 CCITT validation.
 
-### GCC 15 TLS Problem
-Need to check the TLS issue which aborts code execution.
+## TO DO
+- GCC 15 TLS Problem (Need to check the TLS issue which aborts code execution.)
 
 ---
 
