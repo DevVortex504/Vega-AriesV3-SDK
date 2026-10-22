@@ -2,10 +2,26 @@ import serial
 import sys
 import time
 import os
+import argparse
 
 PORT = '/dev/cu.usbserial-130'
 BAUD = 115200
 BIN_FILE = './Examples/LED/build/app.bin'
+
+parser = argparse.ArgumentParser(description='Flash a binary to a VEGA Aries V3 board.')
+parser.add_argument(
+    '--port',
+    default=PORT,
+    help=f'Serial port to use (default: {PORT})',
+)
+parser.add_argument(
+    '--bin-file',
+    default=BIN_FILE,
+    help=f'Binary file to flash (default: {BIN_FILE})',
+)
+args = parser.parse_args()
+PORT = args.port
+BIN_FILE = args.bin_file
 
 if not os.path.exists(BIN_FILE):
     print(f"Error: {BIN_FILE} not found! Compile with 'cmake --build build' first.")

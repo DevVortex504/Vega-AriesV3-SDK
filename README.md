@@ -1,8 +1,8 @@
-# VEGA Aries V3 Modern SDK & Native Toolchain
+# VEGA Aries V3 SDK for MacOS Based on Taurus SDK
 
-A modern, open-source bare-metal SDK, build system, and native flashing workflow for the **C-DAC VEGA Aries V3** board (RISC-V 32-bit, Thejas32 SoC, Vega ET1031 core). 
+Open-source bare-metal SDK based on Taurus SDK, build system, and native flashing workflow for the **C-DAC VEGA Aries V3** board (RISC-V 32-bit, Thejas32 SoC, Vega ET1031 core). 
 
-This repository solves common roadblocks when developing on modern host environments (such as macOS Apple Silicon M1/M2/M3/M4 and modern Linux distributions with GCC 12+) (Tested on M1).
+This repository solves common roadblocks when developing on modern host environments (such as macOS Apple Silicon M1/M2/M3/M4 and modern Linux distributions with GCC 12+) (Tested on Apple Silicon M1).
 
 ---
 
@@ -29,7 +29,7 @@ vega-aries-modern-sdk/
 │   ├── common/               
 │   └── ...
 └── Examples/
-    └── Timer/        # Starter project template
+    └── LED/        # Starter project template
         ├── CMakeLists.txt    
         └── main.c            # Starter code 
 ```
@@ -70,7 +70,14 @@ This produces `app.elf` and automatically extracts the raw binary image `app.bin
 2. Ensure the **BOOT-SEL jumper is CLOSED** (bridged) so the board enters SPI bootloader mode.
 3. Run the Python flasher script:
    ```bash
-   python3 ../../tools/vega_flash.py build/app.bin
+   python3 tools/vega_flash.py
+   ```
+   The default port and binary path are `/dev/cu.usbserial-130` and
+   `./Examples/LED/build/app.bin`. Override them when needed:
+   ```bash
+   python3 tools/vega_flash.py \
+      --port /dev/cu.usbserial-130 \
+      --bin-file ./Examples/LED/build/app.bin
    ```
 4. When prompted by the script, press and release the physical **RESET** button on the Aries V3 board.
 5. The script will automatically catch the `<` $\rightarrow$ `>` handshake, upload the binary via XMODEM CRC-16, burn it into permanent SPI Flash, and open a live serial console.
@@ -86,18 +93,8 @@ The Aries V3 secondary bootloader (`FLASHER`) listens for a host response over s
 - **Board initiates:** `C` (`0x43`, XMODEM-CRC synchronization prompt)
 - **Host transmits:** 128-byte packets with CRC-16 CCITT validation.
 
-### GCC 15 TLS Resolution
-Modern GCC 15 enforces strict section typing. To prevent `_tdata_end` type mismatches between assembler sections and C references, boundary markers are explicitly defined as standard non-TLS memory symbols in `mbl.lds`:
-```ld
-.tdata : {
-    _tls_data = .;
-    _tdata_begin = .;
-    *(.tdata.begin)
-    *(.tdata)
-    *(.tdata.end)
-    _tdata_end = .;
-}
-```
+### GCC 15 TLS Problem
+Need to check the TLS issue which aborts code execution.
 
 ---
 
