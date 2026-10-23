@@ -1,6 +1,6 @@
 # VEGA Aries V3 SDK for MacOS Based on Taurus SDK
 
-Open-source bare-metal SDK based on Taurus SDK, build system, and native flashing workflow for the **C-DAC VEGA Aries V3** board (RISC-V 32-bit, Thejas32 SoC, Vega ET1031 core). 
+Open-source bare-metal SDK based on Taurus SDK, and supports native flashing workflow for the **C-DAC VEGA Aries V3** board (RISC-V 32-bit, Thejas32 SoC, Vega ET1031 core). 
 
 This repository solves common roadblocks when developing on modern host environments (such as macOS Apple Silicon M1/M2/M3/M4 and modern Linux distributions with GCC 12+) (Tested on Apple Silicon M1).
 
